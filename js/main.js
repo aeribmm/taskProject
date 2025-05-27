@@ -3,7 +3,6 @@ import App from './App.js';
 document.addEventListener('DOMContentLoaded', () => {
     const app = new App();
     app.loadFromLocalStorage();
-
     console.log('App loaded with users:', app.users);
     console.log('Current tasks:', app.taskManager.tasks);
 

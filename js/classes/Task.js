@@ -2,7 +2,7 @@ class Task {
     constructor(content, user) {
         this.id = this.generateId();
         this.content = content;
-        this.user = user.name;
+        this.user = typeof user === 'string' ? user : user.name;
         this.status = 'pending';
         this.priority = 'medium';
         this.category = 'inne';
@@ -21,6 +21,28 @@ class Task {
         this.status = 'pending';
     }
 
+    toggleStatus() {
+        this.status = this.status === 'done' ? 'pending' : 'done';
+    }
+
+    setPriority(priority) {
+        if (['low', 'medium', 'high'].includes(priority)) {
+            this.priority = priority;
+        }
+    }
+
+    setCategory(category) {
+        if (['praca', 'nauka', 'hobby', 'dom', 'inne'].includes(category)) {
+            this.category = category;
+        }
+    }
+
+    updateContent(content) {
+        if (content && content.trim()) {
+            this.content = content.trim();
+        }
+    }
+
     toJSON() {
         return {
             id: this.id,
@@ -34,54 +56,12 @@ class Task {
     }
 
     static fromJSON(data) {
-        const task = new Task(data.content, { name: data.user });
+        const task = new Task(data.content, data.user);
         task.id = data.id;
         task.status = data.status;
         task.priority = data.priority;
         task.category = data.category;
         task.createdAt = new Date(data.createdAt);
         return task;
-    }
-}
-
-// TaskManager Class
-class TaskManager {
-    constructor() {
-        this.tasks = [];
-    }
-
-    addTask(content, user, priority = 'medium', category = 'inne') {
-        const task = new Task(content, user);
-        task.priority = priority;
-        task.category = category;
-        this.tasks.push(task);
-        return task;
-    }
-
-    removeTask(id) {
-        this.tasks = this.tasks.filter(task => task.id !== id);
-    }
-
-    getTaskById(id) {
-        return this.tasks.find(task => task.id === id) || null;
-    }
-
-    editTask(id, updates) {
-        const task = this.getTaskById(id);
-        if (task) {
-            Object.assign(task, updates);
-        }
-    }
-
-    getUserTasks(userName) {
-        return this.tasks.filter(task => task.user === userName);
-    }
-
-    toJSON() {
-        return this.tasks.map(task => task.toJSON());
-    }
-
-    fromJSON(data) {
-        this.tasks = data.map(item => Task.fromJSON(item));
     }
 }

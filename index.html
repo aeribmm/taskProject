@@ -377,6 +377,18 @@
         }
     </style>
 </head>
+<script type="module">
+    import App from './js/App.js';
+
+    window.app = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        window.app = new App();
+        // Делаем методы глобально доступными (если хочешь использовать их в `onclick`)
+        window.addUser = (name) => window.app.addUser(name);
+        window.removeUser = () => window.app.removeUser();
+    });
+</script>
 <body>
 <div class="container fade-in">
     <div class="header">
@@ -389,7 +401,7 @@
             <h2 style="margin-bottom: 20px; color: #374151;">👤 Zarządzanie użytkownikami</h2>
             <div class="user-controls">
                 <input type="text" id="userNameInput" placeholder="Nazwa użytkownika">
-                <button class="btn" onclick="addUser()">➕ Dodaj użytkownika</button>
+                <button class="btn" onclick="addUser(name)">➕ Dodaj użytkownika</button>
                 <select id="currentUserSelect">
                     <option value="">Wybierz użytkownika</option>
                 </select>
