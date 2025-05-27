@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-sscale=1.0">
+    <title>Lista zadań z użytkownikami</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="container fade-in">
+    <div class="header">
+        <h1>📝 TaskMaster</h1>
+        <p>Profesjonalne zarządzanie zadaniami z obsługą użytkowników</p>
+    </div>
+
+    <div class="main-content">
+        <div class="user-section">
+            <h2 style="margin-bottom: 20px; color: #374151;">👤 Zarządzanie użytkownikami</h2>
+            <div class="user-controls">
+                <input type="text" id="userNameInput" placeholder="Nazwa użytkownika">
+                <button class="btn" onclick="app.addUser()">➕ Dodaj użytkownika</button>
+                <select id="currentUserSelect">
+                    <option value="">Wybierz użytkownika</option>
+                </select>
+                <button class="btn btn-danger" onclick="app.removeUser()">🗑️ Usuń użytkownika</button>
+            </div>
+        </div>
+
+        <div class="stats" id="statsContainer"></div>
+
+        <div class="task-form">
+            <h2 style="margin-bottom: 20px; color: #374151;">➕ Dodaj nowe zadanie</h2>
+            <form id="taskForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskContent">Treść zadania</label>
+                        <textarea id="taskContent" placeholder="Opisz swoje zadanie..." required></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskPriority">Priorytet</label>
+                        <select id="taskPriority">
+                            <option value="low">🔵 Niski</option>
+                            <option value="medium" selected>🟡 Średni</option>
+                            <option value="high">🔴 Wysoki</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskCategory">Kategoria</label>
+                        <select id="taskCategory">
+                            <option value="praca">💼 Praca</option>
+                            <option value="nauka">📚 Nauka</option>
+                            <option value="hobby">🎨 Hobby</option>
+                            <option value="dom">🏠 Dom</option>
+                            <option value="inne">📋 Inne</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn">✅ Dodaj zadanie</button>
+            </form>
+        </div>
+
+        <div class="filters">
+            <h3 style="color: #374151; margin-right: 20px;">🔍 Filtry:</h3>
+            <select id="statusFilter">
+                <option value="all">Wszystkie zadania</option>
+                <option value="pending">Oczekujące</option>
+                <option value="done">Ukończone</option>
+            </select>
+            <select id="priorityFilter">
+                <option value="all">Wszystkie priorytety</option>
+                <option value="high">Wysoki priorytet</option>
+                <option value="medium">Średni priorytet</option>
+                <option value="low">Niski priorytet</option>
+            </select>
+            <select id="categoryFilter">
+                <option value="all">Wszystkie kategorie</option>
+                <option value="praca">Praca</option>
+                <option value="nauka">Nauka</option>
+                <option value="hobby">Hobby</option>
+                <option value="dom">Dom</option>
+                <option value="inne">Inne</option>
+            </select>
+            <select id="sortBy">
+                <option value="date">Sortuj po dacie</option>
+                <option value="priority">Sortuj po priorytecie</option>
+                <option value="category">Sortuj po kategorii</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="🔍 Szukaj zadań...">
+        </div>
+
+        <div class="task-list" id="taskList"></div>
+    </div>
+</div>
+
+<script src="js/classes/Task.js"></script>
+<script src="js/classes/User.js"></script>
+<script src="js/classes/TaskFilter.js"></script>
+<script src="js/classes/Statistics.js"></script>
+<script src="js/classes/Validator.js"></script>
+<script src="js/classes/TaskManager.js"></script>
+<script src="js/App.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

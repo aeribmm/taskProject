@@ -1,0 +1,12 @@
+{
+  "name": "taskProject",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "js/main.js",
+  "scripts": {
+    "start": "node js/main.js"
+  },
+  "dependencies": {
+    "uuid": "^11.1.0"
+  }
+}
