@@ -1,10 +1,9 @@
 export default class App {
     constructor() {
         this.users = [];
-        this.tasks = {};  // задачи для каждого пользователя, например: { userName: [task1, task2] }
+        this.tasks = {};
         this.currentUser = null;
 
-        // Элементы управления
         this.userNameInput = document.getElementById('userNameInput');
         this.currentUserSelect = document.getElementById('currentUserSelect');
         this.userMessage = document.getElementById('userMessage');
@@ -22,29 +21,55 @@ export default class App {
         this.sortBy = document.getElementById('sortBy');
         this.searchInput = document.getElementById('searchInput');
 
+        this.loadData();
         this.init();
+    }
+
+    loadData() {
+        // Загружаем из localStorage
+        const usersData = localStorage.getItem('users');
+        const tasksData = localStorage.getItem('tasks');
+        const currentUser = localStorage.getItem('currentUser');
+
+        this.users = usersData ? JSON.parse(usersData) : [];
+        this.tasks = tasksData ? JSON.parse(tasksData) : {};
+
+        // Восстановим даты из строк в объекты Date
+        for (const user in this.tasks) {
+            this.tasks[user].forEach(task => {
+                task.createdAt = new Date(task.createdAt);
+            });
+        }
+
+        this.currentUser = currentUser && this.users.includes(currentUser) ? currentUser : null;
+    }
+
+    saveData() {
+        localStorage.setItem('users', JSON.stringify(this.users));
+        localStorage.setItem('tasks', JSON.stringify(this.tasks));
+        localStorage.setItem('currentUser', this.currentUser);
     }
 
     init() {
         this.renderUserOptions();
 
-        // Добавление задачи по форме
         this.taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
             this.addTask();
         });
 
-        // Применение фильтров
         [this.statusFilter, this.priorityFilter, this.categoryFilter, this.sortBy, this.searchInput].forEach(el => {
             el.addEventListener('change', () => this.renderTasks());
             el.addEventListener('input', () => this.renderTasks());
         });
 
-        // Выбор пользователя — обновляем список задач
         this.currentUserSelect.onchange = () => {
             this.currentUser = this.currentUserSelect.value || null;
+            this.saveData();
             this.renderTasks();
         }
+
+        this.renderTasks();
     }
 
     addUser(name) {
@@ -60,8 +85,9 @@ export default class App {
         }
 
         this.users.push(userName);
-        this.tasks[userName] = [];  // инициализируем пустой массив задач
+        this.tasks[userName] = [];
         this.currentUser = userName;
+        this.saveData();
         this.renderUserOptions();
         this.userNameInput.value = '';
         this.showMessage(this.userMessage, `Dodano użytkownika: ${userName}`, 'success');
@@ -77,6 +103,7 @@ export default class App {
         this.users = this.users.filter(user => user !== this.currentUser);
         delete this.tasks[this.currentUser];
         this.currentUser = null;
+        this.saveData();
         this.renderUserOptions();
         this.showMessage(this.userMessage, 'Użytkownik został usunięty.', 'success');
         this.renderTasks();
@@ -102,11 +129,12 @@ export default class App {
             content,
             priority,
             category,
-            status: 'pending',  // статус по умолчанию — ожидает
+            status: 'pending',
             createdAt: new Date()
         };
 
         this.tasks[this.currentUser].push(newTask);
+        this.saveData();
         this.taskForm.reset();
         this.showMessage(this.taskMessage, 'Zadanie zostało dodane.', 'success');
         this.renderTasks();
@@ -133,7 +161,6 @@ export default class App {
 
         let tasks = this.tasks[this.currentUser] || [];
 
-        // Фильтры
         const statusFilter = this.statusFilter.value;
         const priorityFilter = this.priorityFilter.value;
         const categoryFilter = this.categoryFilter.value;
@@ -156,7 +183,6 @@ export default class App {
             tasks = tasks.filter(task => task.content.toLowerCase().includes(search));
         }
 
-        // Сортировка
         if (sortBy === 'date') {
             tasks.sort((a, b) => b.createdAt - a.createdAt);
         } else if (sortBy === 'priority') {
@@ -166,7 +192,6 @@ export default class App {
             tasks.sort((a, b) => a.category.localeCompare(b.category));
         }
 
-        // Отображение
         if (tasks.length === 0) {
             this.taskList.innerHTML = '<p class="no-tasks">Brak zadań do wyświetlenia.</p>';
             return;
@@ -197,15 +222,15 @@ export default class App {
                 </div>
             `;
 
-            // Кнопка удалить задачу
             card.querySelector('.btn-danger').onclick = () => {
                 this.tasks[this.currentUser] = this.tasks[this.currentUser].filter(t => t.id !== task.id);
+                this.saveData();
                 this.renderTasks();
             };
 
-            // Кнопка изменить статус
             card.querySelector('.task-actions button').onclick = () => {
                 task.status = task.status === 'done' ? 'pending' : 'done';
+                this.saveData();
                 this.renderTasks();
             };
 
