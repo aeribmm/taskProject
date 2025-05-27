@@ -17,5 +17,3 @@ class Statistics {
         return Math.round((this.completed(tasks) / total) * 100);
     }
 }
-
-export default Statistics;
