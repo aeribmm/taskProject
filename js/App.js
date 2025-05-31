@@ -1,4 +1,7 @@
+import TaskFilter from "./classes/TaskFilter.js";
+
 export default class App {
+
     constructor() {
         this.users = [];
         this.tasks = {};
@@ -20,11 +23,29 @@ export default class App {
         this.categoryFilter = document.getElementById('categoryFilter');
         this.sortBy = document.getElementById('sortBy');
         this.searchInput = document.getElementById('searchInput');
-
         this.loadData();
         this.init();
+        this.initFilters();
     }
+    initFilters() {
+        this.statusFilter?.addEventListener('change', () => {
+            const status = this.statusFilter.value;
+            const filteredTasks = TaskFilter.filterByStatus(Object.values(this.tasks), status);
+            this.renderTasks(filteredTasks);
+        });
 
+        this.priorityFilter?.addEventListener('change', () => {
+            const priority = this.priorityFilter.value;
+            const filteredTasks = TaskFilter.filterByPriority(Object.values(this.tasks), priority);
+            this.renderTasks(filteredTasks);
+        });
+
+        this.categoryFilter?.addEventListener('change', () => {
+            const category = this.categoryFilter.value;
+            const filteredTasks = TaskFilter.filterByCategory(Object.values(this.tasks), category);
+            this.renderTasks(filteredTasks);
+        });
+    }
     loadData() {
         // Загружаем из localStorage
         const usersData = localStorage.getItem('users');

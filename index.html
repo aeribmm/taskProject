@@ -448,18 +448,18 @@
 
         <div class="filters">
             <h3 style="color: #374151; margin-right: 20px;">🔍 Filtry:</h3>
-            <select id="statusFilter" onchange="applyFilters()">
+            <select id="statusFilter">
                 <option value="all">Wszystkie zadania</option>
                 <option value="pending">Oczekujące</option>
                 <option value="done">Ukończone</option>
             </select>
-            <select id="priorityFilter" onchange="applyFilters()">
+            <select id="priorityFilter">
                 <option value="all">Wszystkie priorytety</option>
                 <option value="high">Wysoki priorytet</option>
                 <option value="medium">Średni priorytet</option>
                 <option value="low">Niski priorytet</option>
             </select>
-            <select id="categoryFilter" onchange="applyFilters()">
+            <select id="categoryFilter">
                 <option value="all">Wszystkie kategorie</option>
                 <option value="praca">Praca</option>
                 <option value="nauka">Nauka</option>
@@ -467,12 +467,12 @@
                 <option value="dom">Dom</option>
                 <option value="inne">Inne</option>
             </select>
-            <select id="sortBy" onchange="applyFilters()">
+            <select id="sortBy">
                 <option value="date">Sortuj po dacie</option>
                 <option value="priority">Sortuj po priorytecie</option>
                 <option value="category">Sortuj po kategorii</option>
             </select>
-            <input type="text" id="searchInput" placeholder="🔍 Szukaj zadań..." oninput="applyFilters()">
+            <input type="text" id="searchInput" placeholder="🔍 Szukaj zadań...">
         </div>
 
         <div class="task-list" id="taskList"></div>
