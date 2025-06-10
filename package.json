@@ -1,12 +1,43 @@
 {
-  "name": "taskProject",
+  "name": "task-project",
   "version": "1.0.0",
+  "description": "Projekt zaliczeniowy: Lista zadań z użytkownikami - aplikacja do zarządzania zadaniami napisana w czystym JavaScript z wykorzystaniem programowania obiektowego",
   "type": "module",
   "main": "js/main.js",
   "scripts": {
-    "start": "node js/main.js"
+    "start": "npx http-server . -p 3000 -o",
+    "dev": "npx http-server . -p 3000 -o -c-1",
+    "build": "echo 'Projekt nie wymaga budowania - używa czystego JavaScript'",
+    "test": "echo 'Testy będą dodane w przyszłości'",
+    "lint": "echo 'Linting będzie dodany w przyszłości'",
+    "serve": "python -m http.server 3000",
+    "serve-php": "php -S localhost:3000"
   },
-  "dependencies": {
-    "uuid": "^11.1.0"
-  }
+  "keywords": [
+    "javascript",
+    "oop",
+    "tasks",
+    "todo",
+    "project",
+    "vanilla-js",
+    "localstorage",
+    "crud",
+    "education"
+  ],
+  "author": "Student",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/task-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/task-project/issues"
+  },
+  "homepage": "https://github.com/username/task-project#readme"
 }
